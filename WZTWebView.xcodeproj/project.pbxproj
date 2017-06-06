@@ -16,6 +16,16 @@
 		3A1953381EE63B7D009FDE38 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3A1953361EE63B7D009FDE38 /* LaunchScreen.storyboard */; };
 		3A1953431EE63B7D009FDE38 /* WZTWebViewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A1953421EE63B7D009FDE38 /* WZTWebViewTests.m */; };
 		3A19534E1EE63B7D009FDE38 /* WZTWebViewUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A19534D1EE63B7D009FDE38 /* WZTWebViewUITests.m */; };
+		3A1953631EE63BBE009FDE38 /* NJKWebViewProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A19535F1EE63BBE009FDE38 /* NJKWebViewProgress.m */; };
+		3A1953641EE63BBE009FDE38 /* WebviewPictureViewCtrl.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A1953611EE63BBE009FDE38 /* WebviewPictureViewCtrl.m */; };
+		3A1953671EE63C7E009FDE38 /* ZTWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A1953661EE63C7E009FDE38 /* ZTWebView.m */; };
+		3A19536A1EE655D6009FDE38 /* BrowserViewCtrlBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A1953691EE655D6009FDE38 /* BrowserViewCtrlBase.m */; };
+		3A1953721EE67CDC009FDE38 /* icon-send@x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3A19536C1EE67CDC009FDE38 /* icon-send@x.png */; };
+		3A1953731EE67CDC009FDE38 /* icon-send@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3A19536D1EE67CDC009FDE38 /* icon-send@3x.png */; };
+		3A1953741EE67CDC009FDE38 /* icon-send@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3A19536E1EE67CDC009FDE38 /* icon-send@2x.png */; };
+		3A1953751EE67CDC009FDE38 /* icon-save-local@x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3A19536F1EE67CDC009FDE38 /* icon-save-local@x.png */; };
+		3A1953761EE67CDC009FDE38 /* icon-save-local@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3A1953701EE67CDC009FDE38 /* icon-save-local@3x.png */; };
+		3A1953771EE67CDC009FDE38 /* icon-save-local@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3A1953711EE67CDC009FDE38 /* icon-save-local@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +63,20 @@
 		3A1953491EE63B7D009FDE38 /* WZTWebViewUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WZTWebViewUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A19534D1EE63B7D009FDE38 /* WZTWebViewUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZTWebViewUITests.m; sourceTree = "<group>"; };
 		3A19534F1EE63B7D009FDE38 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3A19535E1EE63BBE009FDE38 /* NJKWebViewProgress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NJKWebViewProgress.h; path = WebView/NJKWebViewProgress.h; sourceTree = "<group>"; };
+		3A19535F1EE63BBE009FDE38 /* NJKWebViewProgress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NJKWebViewProgress.m; path = WebView/NJKWebViewProgress.m; sourceTree = "<group>"; };
+		3A1953601EE63BBE009FDE38 /* WebviewPictureViewCtrl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WebviewPictureViewCtrl.h; path = WebView/WebviewPictureViewCtrl.h; sourceTree = "<group>"; };
+		3A1953611EE63BBE009FDE38 /* WebviewPictureViewCtrl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WebviewPictureViewCtrl.m; path = WebView/WebviewPictureViewCtrl.m; sourceTree = "<group>"; };
+		3A1953651EE63C7E009FDE38 /* ZTWebView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZTWebView.h; path = WebView/ZTWebView.h; sourceTree = "<group>"; };
+		3A1953661EE63C7E009FDE38 /* ZTWebView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZTWebView.m; path = WebView/ZTWebView.m; sourceTree = "<group>"; };
+		3A1953681EE655D6009FDE38 /* BrowserViewCtrlBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BrowserViewCtrlBase.h; path = WebView/BrowserViewCtrlBase.h; sourceTree = "<group>"; };
+		3A1953691EE655D6009FDE38 /* BrowserViewCtrlBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BrowserViewCtrlBase.m; path = WebView/BrowserViewCtrlBase.m; sourceTree = "<group>"; };
+		3A19536C1EE67CDC009FDE38 /* icon-send@x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-send@x.png"; path = "Icon/icon-send@x.png"; sourceTree = "<group>"; };
+		3A19536D1EE67CDC009FDE38 /* icon-send@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-send@3x.png"; path = "Icon/icon-send@3x.png"; sourceTree = "<group>"; };
+		3A19536E1EE67CDC009FDE38 /* icon-send@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-send@2x.png"; path = "Icon/icon-send@2x.png"; sourceTree = "<group>"; };
+		3A19536F1EE67CDC009FDE38 /* icon-save-local@x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-save-local@x.png"; path = "Icon/icon-save-local@x.png"; sourceTree = "<group>"; };
+		3A1953701EE67CDC009FDE38 /* icon-save-local@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-save-local@3x.png"; path = "Icon/icon-save-local@3x.png"; sourceTree = "<group>"; };
+		3A1953711EE67CDC009FDE38 /* icon-save-local@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-save-local@2x.png"; path = "Icon/icon-save-local@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +127,8 @@
 		3A1953241EE63B7D009FDE38 /* WZTWebView */ = {
 			isa = PBXGroup;
 			children = (
+				3A19536B1EE67CA3009FDE38 /* Icon */,
+				3A19535B1EE63B98009FDE38 /* WebView */,
 				3A1953281EE63B7D009FDE38 /* AppDelegate.h */,
 				3A1953291EE63B7D009FDE38 /* AppDelegate.m */,
 				3A19532B1EE63B7D009FDE38 /* ViewController.h */,
@@ -141,6 +167,34 @@
 				3A19534F1EE63B7D009FDE38 /* Info.plist */,
 			);
 			path = WZTWebViewUITests;
+			sourceTree = "<group>";
+		};
+		3A19535B1EE63B98009FDE38 /* WebView */ = {
+			isa = PBXGroup;
+			children = (
+				3A1953651EE63C7E009FDE38 /* ZTWebView.h */,
+				3A1953661EE63C7E009FDE38 /* ZTWebView.m */,
+				3A19535E1EE63BBE009FDE38 /* NJKWebViewProgress.h */,
+				3A19535F1EE63BBE009FDE38 /* NJKWebViewProgress.m */,
+				3A1953601EE63BBE009FDE38 /* WebviewPictureViewCtrl.h */,
+				3A1953611EE63BBE009FDE38 /* WebviewPictureViewCtrl.m */,
+				3A1953681EE655D6009FDE38 /* BrowserViewCtrlBase.h */,
+				3A1953691EE655D6009FDE38 /* BrowserViewCtrlBase.m */,
+			);
+			name = WebView;
+			sourceTree = "<group>";
+		};
+		3A19536B1EE67CA3009FDE38 /* Icon */ = {
+			isa = PBXGroup;
+			children = (
+				3A19536C1EE67CDC009FDE38 /* icon-send@x.png */,
+				3A19536D1EE67CDC009FDE38 /* icon-send@3x.png */,
+				3A19536E1EE67CDC009FDE38 /* icon-send@2x.png */,
+				3A19536F1EE67CDC009FDE38 /* icon-save-local@x.png */,
+				3A1953701EE67CDC009FDE38 /* icon-save-local@3x.png */,
+				3A1953711EE67CDC009FDE38 /* icon-save-local@2x.png */,
+			);
+			name = Icon;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -250,8 +304,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				3A1953381EE63B7D009FDE38 /* LaunchScreen.storyboard in Resources */,
+				3A1953761EE67CDC009FDE38 /* icon-save-local@3x.png in Resources */,
+				3A1953731EE67CDC009FDE38 /* icon-send@3x.png in Resources */,
 				3A1953351EE63B7D009FDE38 /* Assets.xcassets in Resources */,
+				3A1953721EE67CDC009FDE38 /* icon-send@x.png in Resources */,
+				3A1953751EE67CDC009FDE38 /* icon-save-local@x.png in Resources */,
+				3A1953771EE67CDC009FDE38 /* icon-save-local@2x.png in Resources */,
 				3A1953301EE63B7D009FDE38 /* Main.storyboard in Resources */,
+				3A1953741EE67CDC009FDE38 /* icon-send@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -279,7 +339,11 @@
 				3A19532D1EE63B7D009FDE38 /* ViewController.m in Sources */,
 				3A1953331EE63B7D009FDE38 /* WZTWebView.xcdatamodeld in Sources */,
 				3A19532A1EE63B7D009FDE38 /* AppDelegate.m in Sources */,
+				3A1953631EE63BBE009FDE38 /* NJKWebViewProgress.m in Sources */,
+				3A1953641EE63BBE009FDE38 /* WebviewPictureViewCtrl.m in Sources */,
 				3A1953271EE63B7D009FDE38 /* main.m in Sources */,
+				3A1953671EE63C7E009FDE38 /* ZTWebView.m in Sources */,
+				3A19536A1EE655D6009FDE38 /* BrowserViewCtrlBase.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

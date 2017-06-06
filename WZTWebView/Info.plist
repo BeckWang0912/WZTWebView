@@ -20,6 +20,19 @@
 	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
+	<key>NSCameraUsageDescription</key>
+	<string>app需要访问您的相机</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>app需要在您使用的时候获取您的地理位置</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>app需要访问你的麦克风</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>app需要访问您的媒体库</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

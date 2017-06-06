@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "BrowserViewCtrlBase.h"
 
 @interface AppDelegate ()
 
@@ -14,9 +15,10 @@
 
 @implementation AppDelegate
 
-
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:[[BrowserViewCtrlBase alloc] initWithTitle:@"http://www.cocoachina.com/cms/wap.php" strTitle:@"加载H5并截图"]];
+    self.window.backgroundColor = [UIColor whiteColor];
     return YES;
 }
 
