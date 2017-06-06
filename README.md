@@ -1,2 +1,2 @@
 # WZTWebView
-ZTWebView根据iOS系统自动匹配UIViewView或者WKWebView，集成H5生成长图功能
+自动匹配UIViewView或WKWebView，生成长图，防微信进度条
