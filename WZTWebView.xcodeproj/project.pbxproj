@@ -26,6 +26,11 @@
 		3A1953751EE67CDC009FDE38 /* icon-save-local@x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3A19536F1EE67CDC009FDE38 /* icon-save-local@x.png */; };
 		3A1953761EE67CDC009FDE38 /* icon-save-local@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3A1953701EE67CDC009FDE38 /* icon-save-local@3x.png */; };
 		3A1953771EE67CDC009FDE38 /* icon-save-local@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3A1953711EE67CDC009FDE38 /* icon-save-local@2x.png */; };
+		3FA6D6FA202EED880089CECF /* step2.png in Resources */ = {isa = PBXBuildFile; fileRef = 3FA6D6F5202EED870089CECF /* step2.png */; };
+		3FA6D6FB202EED880089CECF /* step3.png in Resources */ = {isa = PBXBuildFile; fileRef = 3FA6D6F6202EED870089CECF /* step3.png */; };
+		3FA6D6FC202EED880089CECF /* full.png in Resources */ = {isa = PBXBuildFile; fileRef = 3FA6D6F7202EED870089CECF /* full.png */; };
+		3FA6D6FD202EED880089CECF /* step1.png in Resources */ = {isa = PBXBuildFile; fileRef = 3FA6D6F8202EED870089CECF /* step1.png */; };
+		3FA6D6FE202EED880089CECF /* empty.png in Resources */ = {isa = PBXBuildFile; fileRef = 3FA6D6F9202EED880089CECF /* empty.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -77,6 +82,11 @@
 		3A19536F1EE67CDC009FDE38 /* icon-save-local@x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-save-local@x.png"; path = "Icon/icon-save-local@x.png"; sourceTree = "<group>"; };
 		3A1953701EE67CDC009FDE38 /* icon-save-local@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-save-local@3x.png"; path = "Icon/icon-save-local@3x.png"; sourceTree = "<group>"; };
 		3A1953711EE67CDC009FDE38 /* icon-save-local@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-save-local@2x.png"; path = "Icon/icon-save-local@2x.png"; sourceTree = "<group>"; };
+		3FA6D6F5202EED870089CECF /* step2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = step2.png; path = Icon/step2.png; sourceTree = "<group>"; };
+		3FA6D6F6202EED870089CECF /* step3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = step3.png; path = Icon/step3.png; sourceTree = "<group>"; };
+		3FA6D6F7202EED870089CECF /* full.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = full.png; path = Icon/full.png; sourceTree = "<group>"; };
+		3FA6D6F8202EED870089CECF /* step1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = step1.png; path = Icon/step1.png; sourceTree = "<group>"; };
+		3FA6D6F9202EED880089CECF /* empty.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = empty.png; path = Icon/empty.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -193,6 +203,11 @@
 				3A19536F1EE67CDC009FDE38 /* icon-save-local@x.png */,
 				3A1953701EE67CDC009FDE38 /* icon-save-local@3x.png */,
 				3A1953711EE67CDC009FDE38 /* icon-save-local@2x.png */,
+				3FA6D6F9202EED880089CECF /* empty.png */,
+				3FA6D6F7202EED870089CECF /* full.png */,
+				3FA6D6F8202EED870089CECF /* step1.png */,
+				3FA6D6F5202EED870089CECF /* step2.png */,
+				3FA6D6F6202EED870089CECF /* step3.png */,
 			);
 			name = Icon;
 			sourceTree = "<group>";
@@ -259,7 +274,7 @@
 		3A19531A1EE63B7D009FDE38 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0820;
+				LastUpgradeCheck = 0910;
 				ORGANIZATIONNAME = beck.wang;
 				TargetAttributes = {
 					3A1953211EE63B7D009FDE38 = {
@@ -305,12 +320,17 @@
 			files = (
 				3A1953381EE63B7D009FDE38 /* LaunchScreen.storyboard in Resources */,
 				3A1953761EE67CDC009FDE38 /* icon-save-local@3x.png in Resources */,
+				3FA6D6FC202EED880089CECF /* full.png in Resources */,
 				3A1953731EE67CDC009FDE38 /* icon-send@3x.png in Resources */,
 				3A1953351EE63B7D009FDE38 /* Assets.xcassets in Resources */,
+				3FA6D6FA202EED880089CECF /* step2.png in Resources */,
 				3A1953721EE67CDC009FDE38 /* icon-send@x.png in Resources */,
+				3FA6D6FB202EED880089CECF /* step3.png in Resources */,
 				3A1953751EE67CDC009FDE38 /* icon-save-local@x.png in Resources */,
 				3A1953771EE67CDC009FDE38 /* icon-save-local@2x.png in Resources */,
 				3A1953301EE63B7D009FDE38 /* Main.storyboard in Resources */,
+				3FA6D6FE202EED880089CECF /* empty.png in Resources */,
+				3FA6D6FD202EED880089CECF /* step1.png in Resources */,
 				3A1953741EE67CDC009FDE38 /* icon-send@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -407,7 +427,9 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
@@ -415,7 +437,11 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -454,7 +480,9 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
@@ -462,7 +490,11 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -491,6 +523,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = WZTWebView/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ztwang.WZTWebView;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -502,6 +535,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = WZTWebView/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ztwang.WZTWebView;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -573,6 +607,7 @@
 				3A1953541EE63B7D009FDE38 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		3A1953551EE63B7D009FDE38 /* Build configuration list for PBXNativeTarget "WZTWebViewTests" */ = {
 			isa = XCConfigurationList;
@@ -581,6 +616,7 @@
 				3A1953571EE63B7D009FDE38 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		3A1953581EE63B7D009FDE38 /* Build configuration list for PBXNativeTarget "WZTWebViewUITests" */ = {
 			isa = XCConfigurationList;
@@ -589,6 +625,7 @@
 				3A19535A1EE63B7D009FDE38 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 

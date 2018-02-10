@@ -9,13 +9,14 @@
 #import <UIKit/UIKit.h>
 
 #define isWKWebView NSClassFromString(@"WKWebView")
-// 屏幕尺寸
 #define KS_Width   [UIScreen mainScreen].bounds.size.width
 #define KS_Heigth  [UIScreen mainScreen].bounds.size.height
-// 强弱引用宏
 #define BIWeakObj(o)   @autoreleasepool {} __weak typeof(o) o ## Weak = o;
 #define BIStrongObj(o) @autoreleasepool {} __strong typeof(o) o = o ## Weak;
 
+/**
+ 导航栏菜单类型
+ */
 typedef NS_ENUM(NSInteger,ZTWebViewNavType) {
     ZTWebViewNavLinkClicked,
     ZTWebViewNavFormSubmitted,
@@ -27,9 +28,10 @@ typedef NS_ENUM(NSInteger,ZTWebViewNavType) {
 
 @class ZTWebView;
 
-// 定义ZTWebView协议
+/**
+ 定义ZTWebView协议
+ */
 @protocol ZTWebViewProtocol <NSObject>
-
 @optional
 @property (nonatomic, readonly, strong) UIScrollView *scrollView;
 @property (nonatomic, readonly, getter=canGoBack) BOOL canGoBack;
@@ -53,9 +55,10 @@ typedef NS_ENUM(NSInteger,ZTWebViewNavType) {
 - (void)zt_evaluateJavaScript:(NSString*)javaScriptString completionHandler:(void (^)(id, NSError*))completionHandler;
 @end
 
-// 定义ZTWebView代理
+/**
+ 定义ZTWebView代理
+ */
 @protocol ZTWebViewDelegate <NSObject>
-
 @optional
 - (BOOL)zt_webView:(id<ZTWebViewProtocol>)webView shouldStartLoadWithRequest:(NSURLRequest*)request navigationType:(ZTWebViewNavType)navigationType;
 - (void)zt_webViewDidStartLoad:(id<ZTWebViewProtocol>)webView;
@@ -63,6 +66,9 @@ typedef NS_ENUM(NSInteger,ZTWebViewNavType) {
 - (void)zt_webView:(id<ZTWebViewProtocol>)webView didFailLoadWithError:(NSError *)error;
 @end
 
+/**
+ 定义ZTWebView配置选项
+ */
 @interface ZTWebViewConfiguration : NSObject
 @property (nonatomic,assign) BOOL allowsInlineMediaPlayback; // iPhone Safari defaults to NO. iPad Safari defaults to YES
 @property (nonatomic,assign) BOOL mediaPlaybackRequiresUserAction; // iPhone and iPad Safari both default to YES
@@ -71,18 +77,17 @@ typedef NS_ENUM(NSInteger,ZTWebViewNavType) {
 @property (nonatomic,assign) BOOL scalesPageToFit;
 @property (nonatomic,assign) BOOL loadingHUD;          //default NO ,if YES webview will add HUD when loading
 @property (nonatomic,assign) BOOL captureImage;        //default NO ,if YES webview will capture all image in content;
+@property (nonatomic,strong) UIColor *progressColor;   //default blue;
 @end
 
 
 @interface ZTWebView : UIView <ZTWebViewProtocol>
-
 @property (nonatomic,weak) id<ZTWebViewDelegate> delegate;
-
 @property (nonatomic,assign) BOOL  canShowProgress;
-
+// WKWebView 初始化
 +(ZTWebView *)webViewWithFrame:(CGRect)frame configuration:(ZTWebViewConfiguration *)configuration;
-
 // WKWebView 滚屏生成长图
 - (void)ZTWKWebViewScrollCaptureCompletionHandler:(void(^)(UIImage *capturedImage))completionHandler;
-
+// UIWebView 滚屏生成长图
+- (void)ZTUIWebViewScrollCaptureCompletionHandler:(CGRect)rect withCapInsets:(UIEdgeInsets)capInsets completionHandler:(void(^)(UIImage *capturedImage))completionHandler;
 @end

@@ -30,42 +30,37 @@
 @interface ZTWebView () <WKNavigationDelegate,UIWebViewDelegate,NJKWebViewProgressDelegate>
 
 @property (nonatomic,strong) id<ZTWebViewProtocol> webView;
+@property (nonatomic,strong) UIActivityIndicatorView  *indicatorView;
+@property (nonatomic,strong) UIProgressView           *progressView;
+@property (nonatomic,strong) ZTWebViewConfiguration   *configuration;
 @property (nonatomic,copy) NSString     *title;
 @property (nonatomic,assign) double     estimatedProgress;
 @property (nonatomic,assign) float      pageHeight;
 @property (nonatomic,copy) NJKWebViewProgress         *webViewProgress;
-@property (nonatomic,strong) UIActivityIndicatorView  *indicatorView;
-@property (nonatomic,strong) ZTWebViewConfiguration   *configuration;
 @property (nonatomic,copy) NSArray      *images;
-@property (nonatomic,strong) UIProgressView           *progressView;
 
 @end
 
 @implementation ZTWebView
+
 // 初始化
-+ (ZTWebView *)webViewWithFrame:(CGRect)frame configuration:(ZTWebViewConfiguration *)configuration
-{
++ (ZTWebView *)webViewWithFrame:(CGRect)frame configuration:(ZTWebViewConfiguration *)configuration{
     return [[self alloc] initWithFrame:frame configuration:configuration];
 }
 
--(instancetype)initWithFrame:(CGRect)frame configuration:(ZTWebViewConfiguration *)configuration
-{
-    if (self = [super initWithFrame:frame])
-    {
+- (instancetype)initWithFrame:(CGRect)frame configuration:(ZTWebViewConfiguration *)configuration{
+    if (self = [super initWithFrame:frame]){
         _configuration = configuration;
-        
-        if (isWKWebView) // iOS8 WKWebView
-        {
-            if (configuration)
-            {
+        if (isWKWebView) { // >=iOS8 WKWebView
+            if (configuration){
                 WKWebViewConfiguration *webViewconfiguration = [[WKWebViewConfiguration alloc] init];
                 webViewconfiguration.allowsInlineMediaPlayback = configuration.allowsInlineMediaPlayback;
                 webViewconfiguration.mediaTypesRequiringUserActionForPlayback = configuration.mediaPlaybackRequiresUserAction;
                 webViewconfiguration.allowsAirPlayForMediaPlayback = configuration.mediaPlaybackAllowsAirPlay;
                 webViewconfiguration.suppressesIncrementalRendering = configuration.suppressesIncrementalRendering;
-                
+
                 WKUserContentController *wkUController = [[WKUserContentController alloc] init];
-                
+
                 if (!configuration.scalesPageToFit) {
                     NSString *jScript = [ZTWebViewJS scalesPageToFitJS];
                     WKUserScript *wkUScript = [[WKUserScript alloc] initWithSource:jScript injectionTime:WKUserScriptInjectionTimeAtDocumentEnd forMainFrameOnly:YES];
@@ -73,108 +68,140 @@
                     WKUserScript *wkScript1 = [[WKUserScript alloc] initWithSource:[ZTWebViewJS imgsElement] injectionTime:WKUserScriptInjectionTimeAtDocumentEnd forMainFrameOnly:YES];
                     [wkUController addUserScript:wkScript1];
                 }
-                
+
                 if (configuration.captureImage) {
                     NSString *jScript = [ZTWebViewJS imgsElement];
                     WKUserScript *wkUScript = [[WKUserScript alloc] initWithSource:jScript injectionTime:WKUserScriptInjectionTimeAtDocumentEnd forMainFrameOnly:YES];
                     [wkUController addUserScript:wkUScript];
                 }
-                
+
                 webViewconfiguration.userContentController = wkUController;
                 _webView = (id)[[ZTWKWebView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height) configuration:webViewconfiguration];
             }
             else{
                 _webView = (id)[[ZTWKWebView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
             }
-            
+
             [(ZTWKWebView *)_webView setNavigationDelegate:self];
+
             // 添加KVO
             [(ZTWKWebView *)_webView addObserver:self forKeyPath:@"title" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:NULL];
             [(ZTWKWebView *)_webView addObserver:self forKeyPath:@"estimatedProgress" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:NULL];
         }
-        else // iOS7 UIWebView
-        {
+        else{ // <=iOS7 UIWebView
             _webView = (id)[[ZTUIWebView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
-            
-            if (configuration)
-            {
+
+            if (configuration){
                 [(ZTUIWebView *)_webView setAllowsInlineMediaPlayback:configuration.allowsInlineMediaPlayback];
                 [(ZTUIWebView *)_webView setMediaPlaybackRequiresUserAction:configuration.mediaPlaybackRequiresUserAction];
                 [(ZTUIWebView *)_webView setMediaPlaybackAllowsAirPlay:configuration.mediaPlaybackAllowsAirPlay];
                 [(ZTUIWebView *)_webView setSuppressesIncrementalRendering:configuration.suppressesIncrementalRendering];
                 [(ZTUIWebView *)_webView setScalesPageToFit:configuration.scalesPageToFit];
             }
-            
+
             _webViewProgress = [[NJKWebViewProgress alloc] init];
             [(ZTUIWebView *)_webView setDelegate:_webViewProgress];
             _webViewProgress.webViewProxyDelegate = self;
             _webViewProgress.progressDelegate = self;
         }
-        
+
         if (configuration.loadingHUD) {
             [(UIView *)_webView addSubview:self.indicatorView];
         }
-        
+
         [(UIView *)_webView setBackgroundColor:[UIColor clearColor]];
-        
         [self addSubview:(UIView *)_webView];
-        
         [self addSubview:self.progressView];
+        if (configuration) {
+            self.progressView.tintColor = configuration.progressColor;
+        }
     }
     return self;
 }
 
 #pragma mark - WKWebView 滚动生成长图
-- (void)ZTWKWebViewScrollCaptureCompletionHandler:(void(^)(UIImage *capturedImage))completionHandler
-{
+- (void)ZTWKWebViewScrollCaptureCompletionHandler:(void(^)(UIImage *capturedImage))completionHandler{
     // 制作了一个UIView的副本
     UIView *snapShotView = [self snapshotViewAfterScreenUpdates:YES];
-    
+
     snapShotView.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, snapShotView.frame.size.width, snapShotView.frame.size.height);
-    
+
     [self.superview addSubview:snapShotView];
-    
+
     // 获取当前UIView可滚动的内容长度
     CGPoint scrollOffset = self.scrollView.contentOffset;
-    
+
     // 向上取整数 － 可滚动长度与UIView本身屏幕边界坐标相差倍数
     float maxIndex = ceilf(self.scrollView.contentSize.height/self.bounds.size.height);
-    
-    // [UIScreen mainScreen].scale 保持清晰度
+
+    // 保持清晰度
     UIGraphicsBeginImageContextWithOptions(self.scrollView.contentSize, false, [UIScreen mainScreen].scale);
-    
-    // 循环截图
+
+    // 滚动截图
     [self ZTContentScrollPageDraw:0 maxIndex:(int)maxIndex drawCallback:^{
-        
         UIImage *capturedImage = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
-        
+
         // 恢复原UIView
         [self.scrollView setContentOffset:scrollOffset animated:NO];
         [snapShotView removeFromSuperview];
-        
+
         completionHandler(capturedImage);
     }];
 }
 
-- (void)ZTContentScrollPageDraw:(int)index maxIndex:(int)maxIndex drawCallback:(void(^)())drawCallback
-{
-    
+// 滚动截图
+- (void)ZTContentScrollPageDraw:(int)index maxIndex:(int)maxIndex drawCallback:(void(^)(void))drawCallback{
     [self.scrollView setContentOffset:CGPointMake(0, (float)index * self.frame.size.height)];
-    
     CGRect splitFrame = CGRectMake(0, (float)index * self.frame.size.height, self.bounds.size.width, self.bounds.size.height);
-    
+
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        
         [self drawViewHierarchyInRect:splitFrame afterScreenUpdates:YES];
-        
         if(index < maxIndex){
-            [self ZTContentScrollPageDraw:index + 1 maxIndex:maxIndex drawCallback:drawCallback];
-        }
-        else{
+            [self ZTContentScrollPageDraw: index + 1 maxIndex:maxIndex drawCallback:drawCallback];
+        }else{
             drawCallback();
         }
     });
+}
+
+#pragma mark - UIWebview 滚动生成长图
+- (void)ZTUIWebViewScrollCaptureCompletionHandler:(CGRect)rect withCapInsets:(UIEdgeInsets)capInsets completionHandler:(void(^)(UIImage *capturedImage))completionHandler{
+    CGFloat scale = [UIScreen mainScreen].scale;
+    CGFloat boundsWidth = self.bounds.size.width;
+    CGFloat boundsHeight = self.bounds.size.height;
+    CGFloat contentWidth = self.scrollView.contentSize.height;
+    CGFloat contentHeight = self.scrollView.contentSize.height;
+    CGPoint offset = self.scrollView.contentOffset;
+    [self.scrollView setContentOffset:CGPointMake(0, 0)];
+
+    NSMutableArray *images = [NSMutableArray array];
+    while (contentHeight > 0) {
+        UIGraphicsBeginImageContextWithOptions(self.bounds.size, NO, scale);
+        [self.layer renderInContext:UIGraphicsGetCurrentContext()];
+        UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        [images addObject:image];
+
+        CGFloat offsetY = self.scrollView.contentOffset.y;
+        [self.scrollView setContentOffset:CGPointMake(0, offsetY + boundsHeight)];
+        contentHeight -= boundsHeight;
+    }
+
+    [self.scrollView setContentOffset:offset];
+
+    CGSize imageSize = CGSizeMake(contentWidth * scale, self.scrollView.contentSize.height * scale);
+    UIGraphicsBeginImageContext(imageSize);
+    [images enumerateObjectsUsingBlock:^(UIImage *image, NSUInteger idx, BOOL *stop) {
+        [image drawInRect:CGRectMake(0,scale * boundsHeight * idx,scale * boundsWidth,scale * boundsHeight)];
+    }];
+
+    UIImage *fullImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    UIImageView * snapshotView = [[UIImageView alloc] initWithFrame:CGRectMake(rect.origin.x, rect.origin.y, rect.size.width, rect.size.height)];
+
+    snapshotView.image = [fullImage resizableImageWithCapInsets:capInsets];
+    completionHandler(snapshotView.image);
 }
 
 #pragma mark getter & setter
@@ -193,7 +220,7 @@
 
 -(UIActivityIndicatorView *)indicatorView{
     if (!_indicatorView) {
-        _indicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+        _indicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
         _indicatorView.hidesWhenStopped = YES;
     }
     return _indicatorView;
@@ -250,13 +277,13 @@
 }
 
 #pragma mark - KVO
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context
-{
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context{
+
     if ([keyPath isEqualToString:@"title"]) {
         self.title = change[NSKeyValueChangeNewKey];
         return;
     }
-    
+
     if (self.canShowProgress && object == self.webView && [keyPath isEqualToString:@"estimatedProgress"]) {
         CGFloat newprogress = [[change objectForKey:NSKeyValueChangeNewKey] doubleValue];
         self.estimatedProgress = newprogress;
@@ -269,13 +296,12 @@
         }
         return;
     }
-    
+
     return [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
 }
 
-#pragma mark - WKWebViewNavigation Delegate
-- (void)webView:(WKWebView*)webView decidePolicyForNavigationAction:(WKNavigationAction*)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler
-{
+#pragma mark - WKWebView Delegate
+- (void)webView:(WKWebView*)webView decidePolicyForNavigationAction:(WKNavigationAction*)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler{
     BOOL load = YES;
     if ([self.delegate respondsToSelector:@selector(zt_webView:shouldStartLoadWithRequest:navigationType:)]) {
         load = [self.delegate zt_webView:(ZTWebView<ZTWebViewProtocol>*)self shouldStartLoadWithRequest:navigationAction.request navigationType:[self navigationTypeConvert:navigationAction.navigationType]];
@@ -287,27 +313,25 @@
     }
 }
 
-- (void)webView:(WKWebView *)webView didStartProvisionalNavigation:(null_unspecified WKNavigation *)navigation
-{
+- (void)webView:(WKWebView *)webView didStartProvisionalNavigation:(null_unspecified WKNavigation *)navigation{
     [_indicatorView startAnimating];
     if ([self.delegate respondsToSelector:@selector(zt_webViewDidStartLoad:)]) {
         [self.delegate zt_webViewDidStartLoad:(ZTWebView<ZTWebViewProtocol>*)self];
     }
 }
 
-- (void)webView:(WKWebView *)webView didFinishNavigation:(null_unspecified WKNavigation *)navigation
-{
+- (void)webView:(WKWebView *)webView didFinishNavigation:(null_unspecified WKNavigation *)navigation{
     [_indicatorView stopAnimating];
     if ([self.delegate respondsToSelector:@selector(zt_webViewDidFinishLoad:)]) {
         [self.delegate zt_webViewDidFinishLoad:(ZTWebView<ZTWebViewProtocol>*)self];
     }
-    
+
     [self zt_evaluateJavaScript:@"document.body.scrollHeight" completionHandler:^(id heitht, NSError *error) {
         if (!error) {
             self.pageHeight = [heitht floatValue];
         }
     }];
-    
+
     if (_configuration.captureImage) {
         [self zt_evaluateJavaScript:@"imgsElement()" completionHandler:^(NSString * imgs, NSError *error) {
             if (!error && imgs.length) {
@@ -317,16 +341,14 @@
     }
 }
 
-- (void)webView:(WKWebView *)webView didFailNavigation:(null_unspecified WKNavigation *)navigation withError:(NSError *)error
-{
+- (void)webView:(WKWebView *)webView didFailNavigation:(null_unspecified WKNavigation *)navigation withError:(NSError *)error{
     [_indicatorView stopAnimating];
     if ([self.delegate respondsToSelector:@selector(zt_webViewDidFinishLoad:)]) {
         [self.delegate zt_webView:(ZTWebView<ZTWebViewProtocol>*)self didFailLoadWithError:error];
     }
 }
 
-- (void)webView:(WKWebView *)webView didFailProvisionalNavigation:(null_unspecified WKNavigation *)navigation withError:(NSError *)error
-{
+- (void)webView:(WKWebView *)webView didFailProvisionalNavigation:(null_unspecified WKNavigation *)navigation withError:(NSError *)error{
     [_indicatorView stopAnimating];
     if ([self.delegate respondsToSelector:@selector(zt_webView:didFailLoadWithError:)]) {
         [self.delegate zt_webView:(ZTWebView<ZTWebViewProtocol>*)self didFailLoadWithError:error];
@@ -334,8 +356,7 @@
 }
 
 #pragma mark - UIWebView Delegate
-- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
-{
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType{
     BOOL isLoad = YES;
     if ([self.delegate respondsToSelector:@selector(zt_webView:shouldStartLoadWithRequest:navigationType:)]) {
         isLoad = [self.delegate zt_webView:(ZTWebView<ZTWebViewProtocol>*)self shouldStartLoadWithRequest:request navigationType:[self navigationTypeConvert:navigationType]];
@@ -343,28 +364,26 @@
     return isLoad;
 }
 
-- (void)webViewDidStartLoad:(UIWebView *)webView
-{
+- (void)webViewDidStartLoad:(UIWebView *)webView{
     [_indicatorView startAnimating];
     if ([self.delegate respondsToSelector:@selector(zt_webViewDidStartLoad:)]) {
         [self.delegate zt_webViewDidStartLoad:(ZTWebView<ZTWebViewProtocol>*)self];
     }
 }
 
-- (void)webViewDidFinishLoad:(UIWebView *)webView
-{
+- (void)webViewDidFinishLoad:(UIWebView *)webView{
     [_indicatorView stopAnimating];
     self.title = [webView stringByEvaluatingJavaScriptFromString:@"document.title"];
     if ([self.delegate respondsToSelector:@selector(zt_webViewDidFinishLoad:)]) {
         [self.delegate zt_webViewDidFinishLoad:(ZTWebView<ZTWebViewProtocol> *)self];
     }
-    
+
     [self zt_evaluateJavaScript:@"document.body.scrollHeight" completionHandler:^(id heitht, NSError *error) {
         if (!error) {
             self.pageHeight = [heitht floatValue];
         }
     }];
-    
+
     if (_configuration.captureImage) {
         [self zt_evaluateJavaScript:[ZTWebViewJS imgsElement] completionHandler:nil];
         [self zt_evaluateJavaScript:@"imgsElement()" completionHandler:^(NSString * imgs, NSError *error) {
@@ -375,8 +394,7 @@
     }
 }
 
-- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
-{
+- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error{
     [_indicatorView stopAnimating];
     if ([self.delegate respondsToSelector:@selector(zt_webView:didFailLoadWithError:)]) {
         [self.delegate zt_webView:(ZTWebView<ZTWebViewProtocol>*)self didFailLoadWithError:error];
@@ -384,53 +402,50 @@
 }
 
 #pragma mark -Privity
--(NSInteger)navigationTypeConvert:(NSInteger)type;
-{
+-(NSInteger)navigationTypeConvert:(NSInteger)type;{
     NSInteger navigationType;
-    
     if (isWKWebView) {
         switch (type) {
-                case WKNavigationTypeLinkActivated:
+            case WKNavigationTypeLinkActivated:
                 navigationType = ZTWebViewNavLinkClicked;
                 break;
-                case WKNavigationTypeFormSubmitted:
+            case WKNavigationTypeFormSubmitted:
                 navigationType = ZTWebViewNavFormSubmitted;
                 break;
-                case WKNavigationTypeBackForward:
+            case WKNavigationTypeBackForward:
                 navigationType = ZTWebViewNavBackForward;
                 break;
-                case WKNavigationTypeReload:
+            case WKNavigationTypeReload:
                 navigationType = ZTWebViewNavReload;
                 break;
-                case WKNavigationTypeFormResubmitted:
+            case WKNavigationTypeFormResubmitted:
                 navigationType = ZTWebViewNavResubmitted;
                 break;
-                case WKNavigationTypeOther:
+            case WKNavigationTypeOther:
                 navigationType = ZTWebViewNavOther;
                 break;
             default:
                 navigationType = ZTWebViewNavOther;
                 break;
         }
-    }
-    else{
+    }else{
         switch (type) {
-                case UIWebViewNavigationTypeLinkClicked:
+            case UIWebViewNavigationTypeLinkClicked:
                 navigationType = ZTWebViewNavLinkClicked;
                 break;
-                case UIWebViewNavigationTypeFormSubmitted:
+            case UIWebViewNavigationTypeFormSubmitted:
                 navigationType = ZTWebViewNavFormSubmitted;
                 break;
-                case UIWebViewNavigationTypeBackForward:
+            case UIWebViewNavigationTypeBackForward:
                 navigationType = ZTWebViewNavBackForward;
                 break;
-                case UIWebViewNavigationTypeReload:
+            case UIWebViewNavigationTypeReload:
                 navigationType = ZTWebViewNavReload;
                 break;
-                case UIWebViewNavigationTypeFormResubmitted:
+            case UIWebViewNavigationTypeFormResubmitted:
                 navigationType = ZTWebViewNavResubmitted;
                 break;
-                case UIWebViewNavigationTypeOther:
+            case UIWebViewNavigationTypeOther:
                 navigationType = ZTWebViewNavOther;
                 break;
             default:
@@ -441,33 +456,30 @@
     return navigationType;
 }
 
-- (void)layoutSubviews
-{
+- (void)layoutSubviews{
     [super layoutSubviews];
     [(UIView *)_webView setFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
     _indicatorView.frame = CGRectMake(0, 0, 20, 20);
     _indicatorView.center = CGPointMake(self.frame.size.width/2, self.frame.size.height/2);
 }
 
-- (void)setNeedsLayout
-{
+- (void)setNeedsLayout{
     [super setNeedsLayout];
     [(UIView *)_webView setNeedsLayout];
 }
 
-- (void)dealloc
-{
+- (void)dealloc{
     if (isWKWebView) {
         [(ZTWebView *)_webView removeObserver:self forKeyPath:@"title"];
         [(ZTWebView *)_webView removeObserver:self forKeyPath:@"estimatedProgress"];
     }
 }
+
 @end
 
 @implementation ZTWKWebView
 
-- (void)zt_evaluateJavaScript:(NSString *)javaScriptString completionHandler:(void (^)(id, NSError *))completionHandler
-{
+- (void)zt_evaluateJavaScript:(NSString *)javaScriptString completionHandler:(void (^)(id, NSError *))completionHandler{
     [self evaluateJavaScript:javaScriptString completionHandler:completionHandler];
 }
 
@@ -475,8 +487,7 @@
 
 @implementation ZTUIWebView
 
-- (void)zt_evaluateJavaScript:(NSString *)javaScriptString completionHandler:(void (^)(id, NSError *))completionHandler
-{
+- (void)zt_evaluateJavaScript:(NSString *)javaScriptString completionHandler:(void (^)(id, NSError *))completionHandler{
     NSString* result = [self stringByEvaluatingJavaScriptFromString:javaScriptString];
     if (completionHandler) {
         completionHandler(result,nil);
@@ -485,10 +496,10 @@
 
 @end
 
+#pragma mark - ZTWebViewConfiguration
 @implementation ZTWebViewConfiguration
 
-- (instancetype)init
-{
+- (instancetype)init{
     if (self = [super init]) {
         _allowsInlineMediaPlayback = NO;
         _mediaPlaybackRequiresUserAction = YES;
@@ -498,10 +509,10 @@
 }
 @end
 
+#pragma mark - ZTWebViewJS
 @implementation ZTWebViewJS
 
 + (NSString *)scalesPageToFitJS{
-    
     return @"var meta = document.createElement('meta'); \
     meta.name = 'viewport'; \
     meta.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no'; \
@@ -510,7 +521,6 @@
 }
 
 +(NSString *)imgsElement{
-    
     return @"function imgsElement(){\
     var imgs = document.getElementsByTagName(\"img\");\
     var imgScr = '';\
@@ -527,6 +537,5 @@
     return imgScr;\
     };";
 }
-
 
 @end

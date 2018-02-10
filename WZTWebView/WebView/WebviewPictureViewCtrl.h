@@ -10,6 +10,6 @@
 
 @interface WebviewPictureViewCtrl : UIViewController
 
--(void)setWebImg:(UIImage*)webImg andUrl:(NSString*)url;
+- (void)setWebImg:(UIImage*)webImg andUrl:(NSString*)url;
 
 @end

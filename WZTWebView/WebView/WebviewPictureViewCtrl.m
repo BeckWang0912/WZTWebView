@@ -113,23 +113,27 @@
 
 -(void)cancelShare:(id)sender{
     [self dismissViewControllerAnimated:YES completion:^{
+        NSLog(@"取消分享图片");
     }];
 }
 
 // 分享图片
 -(void)goShare:(id)sender{
-
-    // 自定义分享图片代码
-    // [[ShareSDKManager sharedInstance] shareSDKSetup:@"图片分享" shareTitie:@"beck.wang" shareUrl:_strUrl isShowImg:NO shareImg:_webImg];
+    NSLog(@"分享图片");
 }
 
 // 保存图片
 -(void)goSave:(id)sender{
-    
     UIImageWriteToSavedPhotosAlbum(_webImg, self, NULL, NULL);
-    
-    UIAlertView *tmpAlertView = [[UIAlertView alloc] initWithTitle:@"" message:@"保存成功" delegate:self cancelButtonTitle:@"知道了" otherButtonTitles:nil];
-    [tmpAlertView show];
+    if ([[[UIDevice currentDevice]systemVersion] floatValue] <= 8.0) {
+        UIAlertView *tmpAlertView = [[UIAlertView alloc] initWithTitle:@"" message:@"保存到相册成功！" delegate:self cancelButtonTitle:@"知道了" otherButtonTitles:nil];
+        [tmpAlertView show];
+    }else {
+        UIAlertController *alterVc = [UIAlertController alertControllerWithTitle:@"" message:@"保存到相册成功！" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"知道了" style:UIAlertActionStyleDefault handler:nil];
+        [alterVc addAction:okAction];
+        [self presentViewController:alterVc animated:YES completion:nil];
+    }
 }
 
 - (void)closeCtrl:(id)sender{
