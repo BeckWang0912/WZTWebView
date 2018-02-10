@@ -1,4 +1,4 @@
-#WebView生成长图
+# WebView生成长图
 
 ---
 
@@ -7,7 +7,8 @@ iOS开发中，几乎每个app都会有分享功能，有时分享的是一个�
 所以我利用空闲时间写了一个WebView生成长图的Demo，整合了`UIWebView`和`WKWebView`，让系统去自适应以何种容器加载网页，并集成了防微信进度条功能，至于JS交互，里面就只有很基础的协议，因为每个公司的约定不一样，大家需要因地制宜。
 
 话不多说，先码图：
-![](/assets/step1.png)                   ![](/assets/step2.png)
+![image](https://github.com/BeckWang0912/WZTWebView/blob/master/WZTWebView/Icon/step1.png)    
+![image](https://github.com/BeckWang0912/WZTWebView/blob/master/WZTWebView/Icon/step2.png)
 
 我们实现简单点的逻辑：把网页生成一张图片（UIImage）
 
