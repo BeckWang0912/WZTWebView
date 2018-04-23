@@ -227,3 +227,5 @@ snapshotView.image = [fullImage resizableImageWithCapInsets:capInsets];
 
 后续将会更新内容截图功能。……^\_^
 
+如果对您有帮助，请star鼓励下😊
+
